@@ -9,83 +9,71 @@ public class HandMovement : MonoBehaviour {
     public float hitRadius;
     public float hitStrength;
     public int player;
+    public float biasUp;
+    public float biasOver;
 
     Rigidbody2D rb;
     Animator anim;
+    KeyCode[] keys;
 
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        if(player == 1)
+        {
+            keys = new KeyCode[] {KeyCode.A,KeyCode.D,KeyCode.W,KeyCode.S,KeyCode.LeftShift};
+        }
+        else
+        {
+            keys = new KeyCode[] {KeyCode.LeftArrow,KeyCode.RightArrow,KeyCode.UpArrow,KeyCode.DownArrow,KeyCode.Keypad0};
+        }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (player == 1)
+        if (Input.GetKey(keys[0]))
         {
-            if (Input.GetKey(KeyCode.A))
-            {
-                rb.velocity += speed * Vector2.left;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                rb.velocity += speed * Vector2.right;
-            }
-            if (Input.GetKey(KeyCode.W))
-            {
-                rb.velocity += speed * Vector2.up;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                rb.velocity += speed * Vector2.down;
-            }
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            rb.velocity += speed * Vector2.left;
+        }
+        if (Input.GetKey(keys[1]))
+        {
+            rb.velocity += speed * Vector2.right;
+        }
+        if (Input.GetKey(keys[2]))
+        {
+            rb.velocity += speed * Vector2.up;
+        }
+        if (Input.GetKey(keys[3]))
+        {
+            rb.velocity += speed * Vector2.down;
+        }
+        if (Input.GetKeyDown(keys[4]))
+        {
+            if(player == 1)
             {
                 anim.Play(stateName: "Open");
-                LayerMask ballMask = LayerMask.GetMask("Ball");
-                Collider2D[] balls = Physics2D.OverlapCircleAll(transform.position, hitRadius, ballMask);
-                foreach(Collider2D ball in balls)
-                {
-                    ball.GetComponent<Rigidbody2D>().AddForce((ball.gameObject.transform.position - transform.position).normalized * hitStrength);
-                }
             }
-            if (Input.GetKeyUp(KeyCode.LeftShift))
+            else
+            {
+                anim.Play(stateName: "Open Left");    
+            }
+            LayerMask ballMask = LayerMask.GetMask("Ball");
+            Collider2D[] balls = Physics2D.OverlapCircleAll(transform.position, hitRadius, ballMask);
+            foreach(Collider2D ball in balls)
+            {
+                ball.GetComponent<Rigidbody2D>().AddForce((ball.gameObject.transform.position - transform.position).normalized * hitStrength + Vector3.up*biasUp + Vector3.right*biasOver);
+            }
+        }
+        if (Input.GetKeyUp(keys[4]))
+        {
+            if(player == 1)
             {
                 anim.Play(stateName: "Close");
             }
-        }
-        else if(player == 2)
-        {
-            if (Input.GetKey(KeyCode.LeftArrow))
+            else
             {
-                rb.velocity += speed * Vector2.left;
-            }
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                rb.velocity += speed * Vector2.right;
-            }
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                rb.velocity += speed * Vector2.up;
-            }
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                rb.velocity += speed * Vector2.down;
-            }
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
-                anim.Play(stateName: "Open Left");
-                LayerMask ballMask = LayerMask.GetMask("Ball");
-                Collider2D[] balls = Physics2D.OverlapCircleAll(transform.position, hitRadius, ballMask);
-                foreach (Collider2D ball in balls)
-                {
-                    print(ball.gameObject.name);
-                    ball.GetComponent<Rigidbody2D>().AddForce((ball.gameObject.transform.position - transform.position).normalized * hitStrength);
-                }
-            }
-            if(Input.GetKeyUp(KeyCode.Space))
-            {
-                anim.Play(stateName: "Close Left");
+                anim.Play(stateName: "Close Left");    
             }
         }
         rb.velocity = rb.velocity.normalized * slow * Mathf.Clamp(rb.velocity.magnitude, 0, speed);
