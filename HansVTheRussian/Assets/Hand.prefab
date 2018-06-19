@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212895157039537908}
   - component: {fileID: 58847317496525812}
   - component: {fileID: 50647483953956600}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Pupil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4004043550465234}
   - component: {fileID: 212200605307119590}
   - component: {fileID: 68074207964368278}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Eyeball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 212755285302729442}
   - component: {fileID: 58349952089663412}
   - component: {fileID: 50559645174119292}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Pupil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4042058610250338}
   - component: {fileID: 212745365998349868}
   - component: {fileID: 68772627299519860}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Eyeball (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -460,7 +460,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 7c7e51365d591e842b62a7d8f99d010a, type: 3}
-  m_Color: {r: 0, g: 0.6314068, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.8666667, b: 0.7058824, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
