@@ -15,6 +15,7 @@ public class HandMovement : MonoBehaviour {
     Rigidbody2D rb;
     Animator anim;
     KeyCode[] keys;
+    float currentSpeed;
 
 	// Use this for initialization
 	void Start () {
@@ -28,25 +29,26 @@ public class HandMovement : MonoBehaviour {
         {
             keys = new KeyCode[] {KeyCode.LeftArrow,KeyCode.RightArrow,KeyCode.UpArrow,KeyCode.DownArrow,KeyCode.Keypad0};
         }
+        currentSpeed = speed;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKey(keys[0]))
         {
-            rb.velocity += speed * Vector2.left;
+            rb.velocity += currentSpeed * Vector2.left;
         }
         if (Input.GetKey(keys[1]))
         {
-            rb.velocity += speed * Vector2.right;
+            rb.velocity += currentSpeed * Vector2.right;
         }
         if (Input.GetKey(keys[2]))
         {
-            rb.velocity += speed * Vector2.up;
+            rb.velocity += currentSpeed * Vector2.up;
         }
         if (Input.GetKey(keys[3]))
         {
-            rb.velocity += speed * Vector2.down;
+            rb.velocity += currentSpeed * Vector2.down;
         }
         if (Input.GetKeyDown(keys[4]))
         {
@@ -62,8 +64,9 @@ public class HandMovement : MonoBehaviour {
             Collider2D[] balls = Physics2D.OverlapCircleAll(transform.position, hitRadius, ballMask);
             foreach(Collider2D ball in balls)
             {
-                ball.GetComponent<Rigidbody2D>().AddForce((ball.gameObject.transform.position - transform.position).normalized * hitStrength + Vector3.up*biasUp + Vector3.right*biasOver);
+                ball.GetComponent<Rigidbody2D>().AddForce((ball.gameObject.transform.position - transform.position).normalized * hitStrength + Vector3.up*biasUp + Vector3.right*biasOver*player);
             }
+            currentSpeed = speed * .3f;
         }
         if (Input.GetKeyUp(keys[4]))
         {
@@ -75,7 +78,8 @@ public class HandMovement : MonoBehaviour {
             {
                 anim.Play(stateName: "Close Left");    
             }
+            currentSpeed = speed;
         }
-        rb.velocity = rb.velocity.normalized * slow * Mathf.Clamp(rb.velocity.magnitude, 0, speed);
+        rb.velocity = rb.velocity.normalized * slow * Mathf.Clamp(rb.velocity.magnitude, 0, currentSpeed);
     }
 }
