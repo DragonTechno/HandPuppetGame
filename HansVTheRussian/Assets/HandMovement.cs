@@ -33,7 +33,7 @@ public class HandMovement : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         if (Input.GetKey(keys[0]))
         {
             rb.velocity += currentSpeed * Vector2.left;
@@ -64,7 +64,7 @@ public class HandMovement : MonoBehaviour {
             Collider2D[] balls = Physics2D.OverlapCircleAll(transform.position, hitRadius, ballMask);
             foreach(Collider2D ball in balls)
             {
-                ball.GetComponent<Rigidbody2D>().AddForce((ball.gameObject.transform.position - transform.position).normalized * hitStrength + Vector3.up*biasUp + Vector3.right*biasOver*player);
+                ball.GetComponent<Rigidbody2D>().AddForce((ball.gameObject.transform.position - transform.position).normalized * hitStrength + Vector3.up*biasUp + Vector3.right*biasOver*player + (Vector3)rb.velocity*rb.mass);
             }
             currentSpeed = speed * .3f;
         }
