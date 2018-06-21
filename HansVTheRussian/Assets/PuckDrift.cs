@@ -6,10 +6,13 @@ public class PuckDrift : MonoBehaviour {
 
     public float driftStrength;
     Rigidbody2D rb;
+    float activateTime = .2f;
 
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
+        GetComponent<Collider2D>().enabled = false;
+
 	}
 	
 	// Update is called once per frame
@@ -19,4 +22,9 @@ public class PuckDrift : MonoBehaviour {
         print(randomVector);
         rb.AddForce(randomVector.normalized*driftStrength);
 	}
+
+    IEnumerator Activate()
+    {
+        yield return new WaitForSeconds(activateTime);
+    }
 }
